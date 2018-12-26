@@ -1,13 +1,33 @@
 pipeline {
-    agent any
-    stages {
-        stage('Preparation') {
-            steps {
-                      sh 'mvn archetype:generate -B ' +
-                    '-DarchetypeGroupId=org.apache.maven.archetypes ' +
-                    '-DarchetypeArtifactId=maven-archetype-quickstart ' +
-                    '-DgroupId=com.company -DartifactId=myproject'
-            }
-        }
-        }
-        }
+agent any
+tools {
+maven 'maven-3.5.2'
+jdk 'jdk1.8'
+}
+stages {
+stage ('Initialize') {
+steps {
+sh '''
+echo "PATH = ${PATH}"
+echo "M2_HOME = ${M2_HOME}"
+'''
+}
+}
+stage('git-clone') {
+steps {
+git 'https://github.com/kliakos/sparkjava-war-example.git'
+  }
+  }
+  stage('compile'){
+  steps {
+    sh 'mvn package'
+  }
+  }
+  stage ('Deploy'){
+  steps {
+sshagent(['ad28f7b1-a139-4ab7-920d-4fcef112c241']) {
+    sh "scp -o StrictHostKeyChecking=no target/*.war admin@13.232.175.7:/opt/tomcat/webapps"
+}
+	}
+	}
+	}
