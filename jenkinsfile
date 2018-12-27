@@ -20,7 +20,7 @@ git 'https://github.com/kliakos/sparkjava-war-example.git'
   }
   stage('compile'){
   steps {
-    sh 'mvn package test'
+    sh 'mvn clean package test'
   }
   }
   stage ('Deploy'){
