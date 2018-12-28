@@ -22,6 +22,12 @@ git 'https://github.com/kliakos/sparkjava-war-example.git'
   steps {
     sh 'mvn clean package test'
   }
+  post {
+                success {
+                    archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
+                    junit '**/target/surefire-reports/*.xml' 
+                }
+            }
   }
   stage ('Deploy'){
   steps {
