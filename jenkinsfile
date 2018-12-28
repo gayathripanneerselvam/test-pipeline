@@ -24,8 +24,8 @@ git 'https://github.com/kliakos/sparkjava-war-example.git'
   }
   post {
                 success {
-                    archiveArtifacts artifacts: '**/target/*.war', fingerprint: true
-                    junit '**/target/surefire-reports/*.xml' 
+                    
+                    junit '/target/*.xml' 
                 }
             }
   }
